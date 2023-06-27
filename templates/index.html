@@ -1,0 +1,140 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function handleSelection() {
+            var select = document.getElementById('exercises');
+            var button = document.getElementById('camera-button');
+
+            select.addEventListener('change', function() {
+                button.style.display = this.value ? 'block' : 'none';
+            });
+        }
+
+        $(document).ready(function(){
+            $.ajax({
+                url: '/get-exercises',
+                type: 'get',
+                dataType: 'json',
+                success: function(data) {
+                    var select = $('#exercises');
+                    $.each(data, function(i, item) {
+                        select.append($('<option>', { 
+                            value: item,
+                            text : item 
+                        }));
+                    });
+                    handleSelection();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <form>
+        <label for="items">Choose an exercise:</label>
+        <select id="exercises">
+            <!-- Options will be added here by JavaScript -->
+        <!-- </select>
+        <br>
+        <button id="camera-button" style="display: none;" type="button" onclick="startVideo()">Start Camera</button>
+        <div id="videoContainer"></div>
+
+        <script>
+            function startVideo() {
+                var videoContainer = document.getElementById('videoContainer');
+                // videoContainer.innerHTML = '<img src="/video_feed">';
+                var select = document.getElementById('exercises');
+                var selectedExercise = select.options[select.selectedIndex].value;
+                videoContainer.innerHTML = '<img src="/video_feed?exercise=' + encodeURIComponent(selectedExercise) + '">';
+            }
+        </script>
+    </form>
+</body>
+</html> --> -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        #videoContainer {
+            display: flex;
+        }
+        #videoContainer img, #videoContainer video {
+            width: 50%;
+        }
+    </style>
+    <script>
+        function handleSelection() {
+            var select = document.getElementById('exercises');
+            var button = document.getElementById('camera-button');
+            select.addEventListener('change', function() {
+                button.style.display = this.value ? 'block' : 'none';
+            });
+        }
+
+        $(document).ready(function(){
+            $.ajax({
+                url: '/get-exercises',
+                type: 'get',
+                dataType: 'json',
+                success: function(data) {
+                    var select = $('#exercises');
+                    $.each(data, function(i, item) {
+                        select.append($('<option>', { 
+                            value: item,
+                            text : item 
+                        }));
+                    });
+                    handleSelection();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <form>
+        <label for="items">Choose an exercise:</label>
+        <select id="exercises">
+            <!-- Options will be added here by JavaScript -->
+        </select>
+        <br>
+        <button id="camera-button" style="display: none;" type="button" onclick="startVideo()">Start Camera</button>
+        <div id="videoContainer">
+            <!-- The pre-recorded video -->
+            <video id="preRecordedVideo" controls style="display: none;" loop>
+                <source src="" type="video/mp4" >
+                Your browser does not support HTML5 video.
+            </video>
+            <!-- The live video -->
+            <img id="liveVideoImg" src="" style="display: none;">
+        </div>
+
+        <script>
+            function startVideo() {
+                var select = document.getElementById('exercises');
+                var selectedExercise = select.options[select.selectedIndex].value;
+                var liveVideoImg = document.getElementById('liveVideoImg');
+                liveVideoImg.style.display = "block";
+                liveVideoImg.src = "/video_feed?exercise=" + encodeURIComponent(selectedExercise);
+
+
+                var videoSource = "/static/videos/" + selectedExercise + ".mp4";
+                var videoElement = document.getElementById('preRecordedVideo');
+                videoElement.style.display = "block";
+                videoElement.getElementsByTagName('source')[0].src = videoSource;
+                videoElement.load();
+                videoElement.play();
+
+               
+            }
+        </script>
+    </form>
+</body>
+</html>
+
+
